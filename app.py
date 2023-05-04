@@ -5,6 +5,7 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
+from keys import API_KEY
 
 app = Flask(__name__)
 
@@ -36,7 +37,7 @@ def index():
             return "Ingen tekst ble funnet i filen."
         else:
             # Authenticate with the OpenAI API and generate a summary of the text
-            openai.api_key = "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"
+            openai.api_key = API_KEY
 
             prompt = f"Please summarize the following article:\n{text}\n\nSummary:"
             try:
@@ -46,7 +47,7 @@ def index():
                     max_tokens=200,
                     timeout=120,
                 )
-            except openai.Error as e:
+            except Exception as e:
                 return f"OpenAI API error: {e}"
             except requests.exceptions.ReadTimeout as e:
                 return f"Request timed out: {e}"
