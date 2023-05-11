@@ -5,7 +5,6 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
-from keys import API_KEY
 
 app = Flask(__name__)
 
