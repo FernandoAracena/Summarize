@@ -9,7 +9,7 @@ from keys import API_KEY
 
 app = Flask(__name__)
 
-
+ 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
