@@ -10,6 +10,16 @@ API_KEY = os.getenv('API_KEY')
 STORAGE_CONNECTION_STRING = os.getenv('STORAGE_CONNECTION_STRING')
 STORAGE_CONTAINER_NAME = os.getenv('STORAGE_CONTAINER_NAME')
 
+if STORAGE_CONNECTION_STRING is None:
+    print("STORAGE_CONNECTION_STRING environment variable is not set.")
+else:
+    print("STORAGE_CONNECTION_STRING:", STORAGE_CONNECTION_STRING)
+
+if STORAGE_CONTAINER_NAME is None:
+    print("STORAGE_CONTAINER_NAME environment variable is not set.")
+else:
+    print("STORAGE_CONTAINER_NAME:", STORAGE_CONTAINER_NAME)
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
