@@ -5,6 +5,7 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
+from azure.storage.blob import BlobServiceClient
 
 API_KEY = os.getenv('API_KEY')
 STORAGE_CONNECTION_STRING = os.getenv('STORAGE_CONNECTION_STRING')
@@ -78,11 +79,9 @@ def index():
                         return "Kunne ikke oversette sammendraget."
                     else:
                         # Store the file in Azure Blob Storage
-                        from azure.storage.blob import BlobServiceClient
-
                         blob_service_client = BlobServiceClient.from_connection_string(STORAGE_CONNECTION_STRING)
                         container_client = blob_service_client.get_container_client(STORAGE_CONTAINER_NAME)
-                        blob_client = container_client.upload_blob(name=file.filename, data=file)
+                        blob_client = container_client.upload_blob(name=file.filename, data=file.read())
 
                         return render_template('index.html', summary=translated_text)
 
