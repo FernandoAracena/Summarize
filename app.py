@@ -6,11 +6,6 @@ import requests
 import os
 from PyPDF2 import PdfReader
 import os
-from azure.storage.blob import BlobServiceClient, BlobClient
-
-
-connection_string = os.getenv('CONNECTION_STRING')
-blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
 
 API_KEY = os.getenv('API_KEY')
