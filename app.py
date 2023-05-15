@@ -5,16 +5,12 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
-import os
 
 API_KEY = os.getenv('API_KEY')
 
-# Use the api_key in your code
-
-
 app = Flask(__name__)
 
- 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -74,17 +70,13 @@ def index():
                     try:
                         translation = translator.translate(summary, src="en", dest="no")
                         if translation is not None and hasattr(translation, 'text'):
-                            translated_text = translation.text
-                            return render_template('index.html', summary=translated_text)
+                            return render_template('index.html', summary=translation.text)
                         else:
                             print("Translation failed: Unable to retrieve translated text")
                             return "Kunne ikke oversette sammendraget."
-                    except AttributeError as e:
+                    except Exception as e:
                         print(f"Google Translate error: {e}")
-                        return "Kunne ikke oversette sammendraget."
-                    else:
-                        return render_template('index.html', summary=translated_text)
-
+                        return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
 
 
