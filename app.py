@@ -23,6 +23,10 @@ def index():
         # Save the file to a temporary location
         file_path = os.path.join('uploads', file.filename)
         file.save(file_path)
+        # Create the "uploads" folder if it doesn't exist
+        if not os.path.exists('uploads'):
+            os.makedirs('uploads')
+
 
         # Extract the text from the uploaded file
         text = ''
