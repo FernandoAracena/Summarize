@@ -68,15 +68,15 @@ def index():
                     print(f"Summary before translation: {summary}")
                     translator = googletrans.Translator()
                     try:
-                        translation = translator.translate(summary, src="en", dest="no").text
+                        translation = translator.translate(summary, src="en", dest="no")
                         if translation is not None and hasattr(translation, 'text'):
-                            return render_template('index.html', summary=translation.text)
+                            translated_text = translation.text
+                            return render_template('index.html', summary=translated_text)
                         else:
                             print("Translation failed: Unable to retrieve translated text")
                             return "Kunne ikke oversette sammendraget."
                     except AttributeError as e:
                         print("Google Translate error:", e)
-                        translation = ""
                         return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
 
