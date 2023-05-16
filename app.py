@@ -5,11 +5,11 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
+import shutil
 
 API_KEY = os.getenv('API_KEY')
 
 app = Flask(__name__)
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -18,6 +18,10 @@ def index():
         file = request.files['file']
         # Create the "uploads" folder if it doesn't exist
         if not os.path.exists('uploads'):
+            os.makedirs('uploads')
+        else:
+            # Clear the contents of the "uploads" folder
+            shutil.rmtree('uploads')
             os.makedirs('uploads')
         # Save the file to a temporary location
         file_path = os.path.join('uploads', file.filename)
@@ -81,6 +85,5 @@ def index():
                         return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
 
-
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run
