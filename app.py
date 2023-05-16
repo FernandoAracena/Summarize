@@ -74,8 +74,9 @@ def index():
                         else:
                             print("Translation failed: Unable to retrieve translated text")
                             return "Kunne ikke oversette sammendraget."
-                    except Exception as e:
-                        print(f"Google Translate error:", e)
+                    except AttributeError as e:
+                        print("Google Translate error:", e)
+                        summary = ""
                         return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
 
