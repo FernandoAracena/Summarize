@@ -21,10 +21,12 @@ def index():
         # Create the "uploads" folder if it doesn't exist
         if not os.path.exists('uploads'):
             os.makedirs('uploads')
-        # Save the file to a temporary location
         # Generate a unique filename
-        filename = f"{uuid.uuid4().hex}.txt"
-        file_path = os.path.join('uploads', filename)
+        filename = f"{uuid.uuid4().hex}"
+        file_extension = os.path.splitext(file.filename)[1]  # Get the file extension
+        filename_with_extension = f"{filename}{file_extension}"
+        file_path = os.path.join('uploads', filename_with_extension)
+        # Save the file to a temporary location
         file.save(file_path)
 
         # Extract the text from the uploaded file
