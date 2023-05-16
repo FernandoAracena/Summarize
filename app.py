@@ -5,6 +5,8 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
+import uuid
+
 
 API_KEY = os.getenv('API_KEY')
 
@@ -20,7 +22,9 @@ def index():
         if not os.path.exists('uploads'):
             os.makedirs('uploads')
         # Save the file to a temporary location
-        file_path = os.path.join('uploads', file.filename)
+        # Generate a unique filename
+        filename = f"{uuid.uuid4().hex}.txt"
+        file_path = os.path.join('uploads', filename)
         file.save(file_path)
 
         # Extract the text from the uploaded file
