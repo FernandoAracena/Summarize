@@ -74,7 +74,7 @@ def index():
                             print(translated_text)
                             return render_template('index.html', summary=translated_text)
                         else:
-                            print("Translation failed: Unable to retrieve translated text")
+                            print("Translation failed: Unable to retrieve translated text") 
                             return "Kunne ikke oversette sammendraget."
                     except AttributeError as e:
                         print("Google Translate error:", e)
