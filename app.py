@@ -5,7 +5,6 @@ import googletrans
 import requests
 import os
 from PyPDF2 import PdfReader
-import shutil
 
 API_KEY = os.getenv('API_KEY')
 
@@ -18,12 +17,7 @@ def index():
         # Get the uploaded file from the user
         file = request.files['file']
         # Create the "uploads" folder if it doesn't exist
-        # Create the "uploads" folder if it doesn't exist
         if not os.path.exists('uploads'):
-            os.makedirs('uploads')
-        else:
-            # Clear the contents of the "uploads" folder
-            shutil.rmtree('uploads')
             os.makedirs('uploads')
         # Save the file to a temporary location
         file_path = os.path.join('uploads', file.filename)
@@ -77,7 +71,8 @@ def index():
                         translation = translator.translate(summary, src="en", dest="no")
                         if translation is not None and hasattr(translation, 'text'):
                             translated_text = translation.text
-                            print(translated_text)
+                            if os.path.exists(file_path):
+                                os.remove(file_path)
                             return render_template('index.html', summary=translated_text)
                         else:
                             print("Translation failed: Unable to retrieve translated text") 
