@@ -11,17 +11,19 @@ API_KEY = os.getenv('API_KEY')
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         # Get the uploaded file from the user
         file = request.files['file']
-        if os.path.exists('uploads'):
+        # Create the "uploads" folder if it doesn't exist
+        # Create the "uploads" folder if it doesn't exist
+        if not os.path.exists('uploads'):
+            os.makedirs('uploads')
+        else:
             # Clear the contents of the "uploads" folder
             shutil.rmtree('uploads')
-            os.makedirs('uploads')       
-        else:
-            # Create the "uploads" folder if it doesn't exist
             os.makedirs('uploads')
         # Save the file to a temporary location
         file_path = os.path.join('uploads', file.filename)
@@ -84,6 +86,7 @@ def index():
                         print("Google Translate error:", e)
                         return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
