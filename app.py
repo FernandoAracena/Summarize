@@ -17,13 +17,13 @@ def index():
     if request.method == 'POST':
         # Get the uploaded file from the user
         file = request.files['file']
-        # Create the "uploads" folder if it doesn't exist
-        if not os.path.exists('uploads'):
-            os.makedirs('uploads')
-        else:
-            # Clear the contents of the "uploads" folder
+        if os.path.exists('uploads'):
+             # Clear the contents of the "uploads" folder
             shutil.rmtree('uploads')
             os.makedirs('uploads')
+        else:
+            # Create the "uploads" folder if it doesn't exist
+            os.makedirs('uploads')           
         # Generate a unique filename based on the current timestamp
         filename = f"{int(time.time())}_{file.filename}"
         file_path = os.path.join('uploads', filename)
