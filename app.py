@@ -66,12 +66,10 @@ def index():
                     return "Kunne ikke generere et sammendrag med OpenAI API."
                 else:
                     summary = completions.choices[0].text.strip()
-
                     if summary is None:
                         return "Kunne ikke generere et sammendrag med OpenAI API."
-
-                    # Print the summary before and after translation
-                    print(f"Summary before translation: {summary}")
+                    
+                    # Print the summary after translation
                     translator = googletrans.Translator()
                     try:
                         translation = translator.translate(summary, src="en", dest="no")
@@ -87,7 +85,6 @@ def index():
                         print("Google Translate error:", e)
                         return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
-
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
