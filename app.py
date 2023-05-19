@@ -4,7 +4,7 @@ import openai
 import googletrans
 import requests
 import os
-from PyPDF2 import PdfReader
+from PyPDF2 import PdfFileReader
 import uuid
 
 
@@ -35,9 +35,10 @@ def index():
             text = docx2txt.process(file_path)
         elif file_path.endswith('.pdf'):
             with open(file_path, 'rb') as f:
-                pdf_reader = PdfReader(f)
-                for page_num in range(len(pdf_reader.pages)):
-                    page = pdf_reader.pages[page_num]
+                pdf_reader = PdfFileReader(f)
+                total_pages = pdf_reader.getNumPages()
+                for page_num in range(total_pages):
+                    page = pdf_reader.getPage(page_num)
                     text += page.extract_text()
         elif file_path.endswith('.txt'):
             with open(file_path, 'r') as f:
