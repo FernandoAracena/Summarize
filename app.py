@@ -43,6 +43,8 @@ def index():
         elif file_path.endswith('.txt'):
             with open(file_path, 'r') as f:
                 text = f.read()
+        else:
+            return "Please select a .docx .pdf or .txt file."
 
         if not text:
             return "Ingen tekst ble funnet i filen."
