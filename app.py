@@ -84,43 +84,10 @@ def index():
                 except AttributeError as e:
                     print("Google Translate error:", e)
                     return "Feil oppstod under oversettelsen av sammendraget."
-                
-
-            #prompt = f"Please summarize the following article:\n{text}\n\nSummary:"
-            #try:
-                #completions = openai.Completion.create(
-                    #engine="text-davinci-002",
-                    #prompt=prompt,
-                    #max_tokens=200,
-                    #timeout=120,
-                #)
             except Exception as e:
                 return f"OpenAI API error: {e}"
             except requests.exceptions.ReadTimeout as e:
                 return f"Request timed out: {e}"
-            #else:
-                #if completions is None:
-                    #return "Kunne ikke generere et sammendrag med OpenAI API."
-                #else:
-                    #summary = completions.choices[0].text.strip()
-                    #if summary is None:
-                        #return "Kunne ikke generere et sammendrag med OpenAI API."
-                    
-                    # Print the summary after translation
-                    #translator = googletrans.Translator()
-                    #try:
-                        #translation = translator.translate(summary, src="en", dest="no")
-                        #if translation is not None and hasattr(translation, 'text'):
-                            #translated_text = translation.text
-                            #if os.path.exists(file_path):
-                                #os.remove(file_path)
-                            #return render_template('index.html', summary=translated_text)
-                        #else:
-                            #print("Translation failed: Unable to retrieve translated text") 
-                            #return "Kunne ikke oversette sammendraget."
-                    #except AttributeError as e:
-                        #print("Google Translate error:", e)
-                        #return "Feil oppstod under oversettelsen av sammendraget."
     return render_template('upload.html')
 
 if __name__ == '__main__':
