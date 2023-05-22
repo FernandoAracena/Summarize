@@ -2,12 +2,21 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <title>Error</title>
 </head>
 
 <body>
     <h1>Error</h1>
-    <p>{{ error }}</p>
+    <div class="grid-container">
+        <div class="grid-item">
+            <p>{{ error }}</p>
+        </div>
+        <div class="grid-item">
+            <a href="/"><button class="submit-button">Try again</button></a>
+        </div>
+    </div>
 </body>
 
 </html>
