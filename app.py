@@ -15,16 +15,19 @@ app = Flask(__name__)
 
 # Error handling route
 @app.errorhandler(Exception)
-def handle_error(error):
+def handle_error(error, custom_message=None):
     if isinstance(error, AttributeError):
         # Handle AttributeError with a custom error message
-        return render_template('error.html', error="Attribute error occurred.")
+        error_message = custom_message if custom_message else "Attribute error occurred."
+        return render_template('error.html', error=error_message)
     elif isinstance(error, requests.exceptions.ReadTimeout):
         # Handle ReadTimeout error with a custom error message
-        return render_template('error.html', error="Request timed out.")
+        error_message = custom_message if custom_message else "Request timed out."
+        return render_template('error.html', error=error_message)
     else:
         # Handle other exceptions with a generic error message
-        return render_template('error.html', error="An error occurred.")
+        error_message = custom_message if custom_message else "An error occurred."
+        return render_template('error.html', error=error_message)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -57,10 +60,10 @@ def index():
             with open(file_path, 'r') as f:
                 text = f.read()
         else:
-            return handle_error(e)
+            return handle_error(Exception(), custom_message="Please select a .docx, .pdf, or .txt file.")
 
         if not text:
-            return handle_error(e)
+            return handle_error(Exception(), custom_message="No text found in the file.")
         else:
             # Authenticate with the OpenAI API and generate a summary of the text
             openai.api_key = API_KEY
@@ -77,7 +80,7 @@ def index():
                         max_tokens=300,
                     )
                     if completions is None:
-                        return "Kunne ikke generere et sammendrag med OpenAI API."
+                        return handle_error(Exception(), custom_message="Unable to generate a summary with OpenAI API.")
                     else:
                         summary = completions.choices[0].text.strip()
                         summaries.append(summary)
@@ -92,7 +95,7 @@ def index():
                                 os.remove(file_path)
                             return render_template('index.html', summary=translated_text)
                         else:
-                            return handle_error(e)
+                            return handle_error(AttributeError(), custom_message="Unable to translate the summary.")
                 except AttributeError as e:
                     return handle_error(e)
             except Exception as e:
