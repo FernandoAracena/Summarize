@@ -57,10 +57,10 @@ def index():
             with open(file_path, 'r') as f:
                 text = f.read()
         else:
-            return "Please select a .docx .pdf or .txt file."
+            return handle_error(e)
 
         if not text:
-            return "Ingen tekst ble funnet i filen."
+            return handle_error(e)
         else:
             # Authenticate with the OpenAI API and generate a summary of the text
             openai.api_key = API_KEY
@@ -94,7 +94,6 @@ def index():
                         else:
                             return handle_error(e)
                 except AttributeError as e:
-                    print("Google Translate error:", e)
                     return handle_error(e)
             except Exception as e:
                 return handle_error(e)
