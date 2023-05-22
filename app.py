@@ -40,8 +40,6 @@ def extract_text(file_path):
     elif file_path.endswith('.txt'):
         with open(file_path, 'r') as f:
             text = f.read()
-    else:
-        return handle_error(custom_message="Please select a .docx, .pdf, or .txt file.")
     return text
 
 # Translate text using Google Translate
@@ -62,6 +60,11 @@ def process_file(file):
     # Generate a unique filename
     filename = f"{uuid.uuid4().hex}"
     file_extension = os.path.splitext(file.filename)[1]  # Get the file extension
+    
+    # Check if the file extension is supported
+    if file_extension not in ['.docx', '.pdf', '.txt']:
+        raise Exception("Unsupported file format. Please upload a .docx, .pdf, or .txt file.")
+
     filename_with_extension = f"{filename}{file_extension}"
     file_path = os.path.join('uploads', filename_with_extension)
     # Save the file to a temporary location
