@@ -13,6 +13,19 @@ API_KEY = os.getenv('API_KEY')
 
 app = Flask(__name__)
 
+# Error handling route
+@app.errorhandler(Exception)
+def handle_error(error):
+    if isinstance(error, AttributeError):
+        # Handle AttributeError with a custom error message
+        return render_template('error.html', error="Attribute error occurred.")
+    elif isinstance(error, requests.exceptions.ReadTimeout):
+        # Handle ReadTimeout error with a custom error message
+        return render_template('error.html', error="Request timed out.")
+    else:
+        # Handle other exceptions with a generic error message
+        return render_template('error.html', error="An error occurred.")
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -79,15 +92,14 @@ def index():
                                 os.remove(file_path)
                             return render_template('index.html', summary=translated_text)
                         else:
-                            print("Translation failed: Unable to retrieve translated text") 
-                            return "Kunne ikke oversette sammendraget."
+                            return handle_error(e)
                 except AttributeError as e:
                     print("Google Translate error:", e)
-                    return "Feil oppstod under oversettelsen av sammendraget."
+                    return handle_error(e)
             except Exception as e:
-                return f"OpenAI API error: {e}"
+                return handle_error(e)
             except requests.exceptions.ReadTimeout as e:
-                return f"Request timed out: {e}"
+                return handle_error(e)
     return render_template('upload.html')
 
 if __name__ == '__main__':
