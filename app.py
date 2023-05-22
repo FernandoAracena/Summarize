@@ -41,6 +41,7 @@ def extract_text(file_path):
         with open(file_path, 'r') as f:
             text = f.read()
     else:
+        text=None
         return handle_error(Exception(), custom_message="Please select a .docx, .pdf, or .txt file.")
     return text
 
