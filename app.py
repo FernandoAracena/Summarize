@@ -40,6 +40,8 @@ def extract_text(file_path):
     elif file_path.endswith('.txt'):
         with open(file_path, 'r') as f:
             text = f.read()
+    else:
+        return handle_error(Exception(), custom_message="Please select a .docx, .pdf, or .txt file.")
     return text
 
 # Translate text using Google Translate
