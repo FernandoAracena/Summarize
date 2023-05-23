@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
 import openai
 import requests
-from helpers import translate_text
-from file_processor import process_file
-from error_handler import handle_error
+from functions.helpers import translate_text
+from functions.file_processor import process_file
+from functions.error_handler import handle_error
 import os
 
 API_KEY = os.getenv('API_KEY')
