@@ -21,6 +21,10 @@ def handle_error(error, custom_message=None):
         # Handle ReadTimeout error with a custom error message
         error_message = custom_message if custom_message else "Request timed out."
         return render_template('error.html', error=error_message)
+    elif isinstance(error, ValueError) and "Unsupported file format" in str(error):
+        # Handle unsupported file format error with a custom error message
+        error_message = custom_message if custom_message else "Unsupported file format. Please upload a .docx, .pdf, or .txt file."
+        return render_template('error.html', error=error_message)
     else:
         # Handle other exceptions with a generic error message
         error_message = custom_message if custom_message else "An error occurred."
@@ -63,8 +67,8 @@ def process_file(file):
     
     # Check if the file extension is supported
     if file_extension not in ['.docx', '.pdf', '.txt']:
-        raise Exception("Unsupported file format. Please upload a .docx, .pdf, or .txt file.")
-
+        raise ValueError
+        
     filename_with_extension = f"{filename}{file_extension}"
     file_path = os.path.join('uploads', filename_with_extension)
     # Save the file to a temporary location
