@@ -67,7 +67,7 @@ def process_file(file):
     
     # Check if the file extension is supported
     if file_extension not in ['.docx', '.pdf', '.txt']:
-        raise ValueError
+        raise ValueError("Unsupported file format. Please upload a .docx, .pdf, or .txt file.")
         
     filename_with_extension = f"{filename}{file_extension}"
     file_path = os.path.join('uploads', filename_with_extension)
