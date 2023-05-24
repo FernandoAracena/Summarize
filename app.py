@@ -4,9 +4,9 @@ import requests
 from functions.helpers import translate_text
 from functions.file_processor import process_file
 from functions.error_handler import handle_error
+from functions.chunks_processor import process_chunks
+from functions.summaries_translator import translate_summaries
 import os
-
-API_KEY = os.getenv('API_KEY')
 
 app = Flask(__name__)
 
@@ -16,37 +16,23 @@ def index():
         try:
             file = request.files['file']
             text, file_path = process_file(file)
-            openai.api_key = API_KEY
 
-            text_chunks = [text[i:i+4096] for i in range(0, len(text), 4096)]
-            summaries = []
-            for chunk in text_chunks:
-                prompt = f"Please summarize the following article:\n{chunk}\n\nSummary:"
-                completions = openai.Completion.create(
-                    engine="text-davinci-002",
-                    prompt=prompt,
-                    max_tokens=300,
-                )
-                if completions is None:
-                    return handle_error(Exception(), custom_message="Unable to generate a summary with OpenAI API.")
-                else:
-                    summary = completions.choices[0].text.strip()
-                    summaries.append(summary)
+            summaries = process_chunks(text)
 
-            translated_summaries = []
-            for summary in summaries:
-                translated_text = translate_text(summary)
-                translated_summaries.append(translated_text)
+            translated_summaries = translate_summaries(summaries)
 
             if os.path.exists(file_path):
                 os.remove(file_path)
+
             return render_template('index.html', summary=translated_summaries)
+        
         except AttributeError as e:
             return handle_error(e)
         except requests.exceptions.ReadTimeout as e:
             return handle_error(e)
         except Exception as e:
             return handle_error(e)
+        
     return render_template('upload.html')
 
 if __name__ == '__main__':
