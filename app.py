@@ -12,13 +12,19 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         try:
+            # Input
             file = request.files['file']
+
+            # Process file and extract text
             text, file_path = process_file(file)
 
+            #Split text in chunks
             summaries = process_chunks(text)
 
+            #Translate summaries
             translated_summaries = translate_summaries(summaries)
 
+            # Clear cache
             if os.path.exists(file_path):
                 os.remove(file_path)
 

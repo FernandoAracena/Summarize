@@ -1,7 +1,5 @@
-# helpers.py
 import docx2txt
 from PyPDF2 import PdfReader
-from googletrans import Translator
 
 def extract_text(file_path):
     text = ''

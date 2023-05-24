@@ -1,4 +1,3 @@
-# error_handler.py
 from flask import render_template
 import requests
 

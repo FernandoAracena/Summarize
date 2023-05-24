@@ -1,4 +1,3 @@
-# file_processor.py
 import os
 import uuid
 from functions.text_extractor import extract_text
