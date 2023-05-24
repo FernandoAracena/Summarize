@@ -17,12 +17,3 @@ def extract_text(file_path):
         with open(file_path, 'r') as f:
             text = f.read()
     return text
-
-def translate_text(text):
-    translator = Translator()
-    translation = translator.translate(text, src='en', dest='no')
-    if translation is not None and hasattr(translation, 'text'):
-        translated_text = translation.text
-        return translated_text
-    else:
-        raise AttributeError("Unable to translate the summary.")

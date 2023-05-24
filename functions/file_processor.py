@@ -1,7 +1,7 @@
 # file_processor.py
 import os
 import uuid
-from functions.helpers import extract_text
+from functions.text_extractor import extract_text
 
 def process_file(file):
     if not os.path.exists('uploads'):
